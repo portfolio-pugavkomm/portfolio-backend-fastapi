@@ -5,12 +5,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  mypy:
+  lint-project:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        linter: [ 'mypy', 'flake8', 'black' ]
+        linter: [ 'mypy', 'ruff'  ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,8 +29,6 @@ jobs:
         run: |
           if [ "${{ matrix.linter }}" = "mypy" ]; then
             uv run mypy src/
-          elif [ "${{ matrix.linter }}" = "flake8" ]; then
-            uv run flake8 src/
-          elif [ "${{ matrix.linter }}" = "black" ]; then
-            uv run black --check src/
+          elif [ "${{ matrix.linter }}" = "ruff" ]; then
+            uv run ruff check src/
           fi
