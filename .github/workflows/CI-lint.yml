@@ -7,11 +7,14 @@ on:
 jobs:
   mypy:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        linter: [ 'mypy', 'flake8', 'black' ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
           python-version-file: ".python-version"
       - name: Install uv
         uses: astral-sh/setup-uv@v6
@@ -21,5 +24,13 @@ jobs:
       - name: Install deps
         run: uv sync
 
-      - name: Run mypy
-        run: uv run mypy src/
+      - name: Run ${{ matrix.linter }}
+
+        run: |
+          if [ "${{ matrix.linter }}" = "mypy" ]; then
+            uv run mypy src/
+          elif [ "${{ matrix.linter }}" = "flake8" ]; then
+            uv run flake8 src/
+          elif [ "${{ matrix.linter }}" = "black" ]; then
+            uv run black --check src/
+          fi
