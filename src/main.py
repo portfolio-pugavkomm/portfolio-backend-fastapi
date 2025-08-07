@@ -14,8 +14,5 @@ app = FastAPI(
 
 
 @app.get("/hello-world/")
-def hello_world() -> dict[
-    Literal["Hello"],
-    Literal["World"],
-]:
+def hello_world() -> dict[Literal["Hello"], Literal["World"]]:
     return {"Hello": "World"}

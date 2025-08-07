@@ -1,0 +1,46 @@
+# Dev
+services:
+  backend:
+    build:
+      dockerfile: Dockerfile
+
+    command: >
+      uv run fastapi dev src/main.py --host 0.0.0.0 --port 8000
+    env_file:
+      - .env
+    volumes:
+      - /app/.venv
+      - "./src/:/app/src"
+    networks:
+      - default
+    ports:
+      - "${BACKEND_PORT}:8000"
+    profiles:
+      - backend
+
+  db:
+    image: postgres:17.5-alpine3.22
+    env_file:
+      - .env
+    environment:
+      PGDATA: /data/postgres
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB}
+      PG_PORT: ${DB_PORT}
+    volumes:
+      - ${DB_MOUNT:-./db/postgres_data}:/data/postgres
+    networks:
+      - default
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB'" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+      - database
+
+networks:
+  default:
+    driver: bridge
+
