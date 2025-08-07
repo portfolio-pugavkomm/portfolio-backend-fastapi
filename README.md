@@ -25,11 +25,14 @@ Classic postgreSQL.
 
 Valkey
 
+## [Changelog](CHANGELOG.md)
+
+## [Developer guide](mds/Developer_guide.md)
 
 ## TODO
 
--[ ] Init project
--[ ] Configure mypy, black etc.
+-[x] Init project
+-[x] Configure mypy, black etc.
 -[ ] Create developer and style guide
 -[ ] Docker + docker-compose configuration with database. (develop)
 -[ ] Deploy + docker + docker-compose configuration with database (production)
