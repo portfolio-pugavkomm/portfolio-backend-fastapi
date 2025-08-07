@@ -31,12 +31,12 @@ Valkey
 
 ## TODO
 
--[x] Init project
--[x] Configure mypy, black etc.
--[ ] Create developer and style guide
--[ ] Docker + docker-compose configuration with database. (develop)
--[ ] Deploy + docker + docker-compose configuration with database (production)
--[ ] CI-CD pipline with github actions
--[ ] Main part api about me
--[ ] Customers part api
--[ ] Some happy parts with experiments
+- [x] Init project
+- [x] Configure mypy, black etc.
+- [ ] Create developer and style guide
+- [x] Docker + docker-compose configuration with database. (develop)
+- [ ] Deploy + docker + docker-compose configuration with database (production)
+- [ ] CI-CD pipline with github actions
+- [ ] Main part api about me
+- [ ] Customers part api
+- [ ] Some happy parts with experiments
