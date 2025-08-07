@@ -1,0 +1,43 @@
+[project]
+name = "portfolio-backend-fastapi"
+version = "0.0.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.116.1",
+]
+
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "flake8>=7.3.0",
+    "isort>=6.0.1",
+    "mypy>=1.17.1",
+]
+
+
+[tool.black]
+line-length = 120
+target-version = ["py313"]
+
+
+[tool.isort]
+profile = "black"
+
+
+[tool.mypy]
+disallow_untyped_defs = true
+check_untyped_defs = true
+disallow_any_generics = true
+warn_redundant_casts = true
+no_implicit_reexport = true
+plugins = ['pydantic.mypy']
+
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
