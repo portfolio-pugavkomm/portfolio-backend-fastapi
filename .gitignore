@@ -188,4 +188,4 @@ __marimo__/
 postgres_data/
 
 # Database develop files
-dev.db # Sqlite by default database name
+dev.db
