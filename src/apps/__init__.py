@@ -1,5 +1,6 @@
-from src.config import get_app_settings
 import importlib
+
+from src.config import get_app_settings
 
 settings = get_app_settings()
 _model_file_name = settings.MODEL_FILE_NAME[:-3]
