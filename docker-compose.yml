@@ -28,6 +28,9 @@ services:
       POSTGRES_PASSWORD: ${DB_PASS}
       POSTGRES_DB: ${DB}
       PG_PORT: ${DB_PORT}
+    command: -p ${DB_PORT}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
       - ${DB_MOUNT:-./db/postgres_data}:/data/postgres
     networks:
