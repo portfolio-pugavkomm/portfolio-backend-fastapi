@@ -1,12 +1,11 @@
 import datetime
 import uuid
-from typing import Any, AsyncGenerator, Annotated
+from typing import Annotated, Any, AsyncGenerator
 from uuid import UUID
 
-from sqlalchemy import BIGINT, String, TIMESTAMP
+from sqlalchemy import BIGINT, TIMESTAMP, String
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import DeclarativeBase, mapped_column
 
 from src.config import get_app_settings
 

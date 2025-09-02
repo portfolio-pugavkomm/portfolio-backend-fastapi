@@ -1,7 +1,22 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
-from src.apps.v1.auth.schemas import UserLoginSchema, UserRegistrationSchema
+from src.dependencies import DBSessionDep
 from src.tags import AUTH_TAG
+
+from .exceptions import UserNameAlreadyUsed
+from .schemas import (
+    JWTTokenResponseSchema,
+    RefreshTokenSchema,
+    UserLoginSchema,
+    UserRegistrationSchema,
+    UserSchema,
+)
+from .services import (
+    CheckUserLoginCredsService,
+    refresh_token_service,
+    register_user_service,
+    sign_jwt_service,
+)
 
 router = APIRouter(
     prefix="/auth",
@@ -9,21 +24,27 @@ router = APIRouter(
 )
 
 
-@router.post("/register")
-def register(data: UserRegistrationSchema):
-    return data
+@router.post(
+    "/register",
+    responses={409: {"description": "Username or email already used. Try login."}},
+    status_code=201,
+)
+async def register(data: UserRegistrationSchema, ses: DBSessionDep) -> UserSchema:
+    try:
+        return await register_user_service(data, ses)
+    except UserNameAlreadyUsed:
+        raise HTTPException(409)
 
 
 @router.post("/login_with_pass")
-def login_with_pass(creds: UserLoginSchema):
-    return {"Login with": creds}
+async def login_with_pass(creds: UserLoginSchema, ses: DBSessionDep) -> JWTTokenResponseSchema:
+    check_service = CheckUserLoginCredsService(creds, ses)
+    if user_id := await check_service.execute():
+        return sign_jwt_service(user_id)
+    else:
+        raise HTTPException(401)
 
 
-@router.post("/refresh_access_token")
-def refresh_access_token():
-    return {"Refresh": "Access token"}
-
-
-@router.post("/logout")
-def logout():
-    return "logout"
+@router.post("/token/refresh")
+def refresh_access_token(refresh: RefreshTokenSchema) -> JWTTokenResponseSchema:
+    return refresh_token_service(refresh.refresh)

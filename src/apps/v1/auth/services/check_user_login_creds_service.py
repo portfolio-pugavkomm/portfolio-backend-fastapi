@@ -9,17 +9,29 @@ from src.apps.v1.auth.schemas import UserLoginSchema
 
 
 class CheckUserLoginCredsService:
+    """Service for check user login credential data
+
+    Args:
+         cred: Credential data
+         session: database async session
+         is_active: if true check only active user. By default, true
+
+    Returns:
+        user uuid or None
+    """
+
     Model = UserModel
 
-    def __init__(self, cred: UserLoginSchema, session: AsyncSession) -> None:
+    def __init__(self, cred: UserLoginSchema, session: AsyncSession, is_active: bool = True) -> None:
         self._cred = cred
         self._ses = session
+        self._is_active = is_active
 
     async def _get_user_pass_hash(self) -> UUID | None:
         if user := (
             await self._ses.execute(
                 select(UserModel)
-                .filter_by(username=self._cred.username)
+                .filter_by(username=self._cred.username, is_active=self._is_active)
                 .options(load_only(UserModel.user_uuid, UserModel.password_hash))
             )
         ).scalar_one_or_none():

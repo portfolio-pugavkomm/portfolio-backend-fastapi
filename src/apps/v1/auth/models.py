@@ -1,11 +1,8 @@
-from uuid import UUID, uuid4
-
 from passlib.context import CryptContext
-from sqlalchemy import String
+from sqlalchemy import String, text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database import Base, pk_uuid, str_256
-from sqlalchemy import text
 
 pwd_context = CryptContext(
     schemes=["pbkdf2_sha256"],
@@ -33,3 +30,6 @@ class UserModel(Base):
 
     def verify_password(self, password: str) -> bool:
         return pwd_context.verify(password, self.password_hash)
+
+    def __repr__(self) -> str:
+        return f"UUID({self.user_uuid}) username({self.username}) is_Active({self.is_active})"

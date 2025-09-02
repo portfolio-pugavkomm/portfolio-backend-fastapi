@@ -1,22 +1,22 @@
 import asyncio
 from asyncio import AbstractEventLoop
 from enum import Enum
-from typing import Any, Generator, AsyncGenerator
-
-import pytest_asyncio
-from sqlalchemy.ext.asyncio.engine import create_async_engine
-from sqlalchemy.ext.asyncio.session import AsyncSession, async_sessionmaker
-
-from src.apps import *  # noqa
-from src.database import Base
-from sqlalchemy.exc import OperationalError
+from typing import Any, AsyncGenerator, Generator
 
 import pytest
-from sqlalchemy.engine.create import create_engine
-from sqlalchemy.orm.session import sessionmaker, Session
+import pytest_asyncio
+from fastapi import FastAPI
+from sqlalchemy.ext.asyncio.engine import create_async_engine
+from sqlalchemy.ext.asyncio.session import AsyncSession, async_sessionmaker
 from sqlalchemy.pool.impl import StaticPool
 
+from src.apps import *  # noqa
 from src.config import get_app_settings
+from src.database import Base
+
+pytest_plugins = [
+    "tests.fixtures.user_data",
+]
 
 settings = get_app_settings()
 
@@ -29,25 +29,8 @@ def pytest_addoption(parser: pytest.Parser) -> None:
     parser.addoption(
         PytestOptions.DB_URL.value,
         action="store",
-        default="sqlite:///./test_db.db",
+        default=settings.SQLALCHEMY_DATABASE_URL,
     )
-
-
-@pytest.hookimpl(tryfirst=True)
-def pytest_sessionstart(session: pytest.Session) -> None:
-    db_url = session.config.getoption(PytestOptions.DB_URL.value)
-
-    try:
-        engine = create_engine(
-            db_url,
-            poolclass=StaticPool,
-        )
-        connection = engine.connect()
-        connection.close()
-        print("Database connection successful..")  # TODO: Add logger instead print statement
-    except OperationalError as e:
-        print(f"Failed to connect to database at {db_url}: {e}")  # TODO: Add logger instead print statement
-        pytest.exit("Tests failed, because database connection could not be establish")
 
 
 @pytest.fixture(scope="session")
@@ -78,3 +61,10 @@ async def db_session(db_url: str) -> AsyncGenerator[AsyncSession, Any]:
         await transaction.rollback()
         await conn.close()
         await engine.dispose()
+
+
+@pytest.fixture(scope="module")
+def application() -> FastAPI:
+    from src.main import app
+
+    return app
