@@ -25,11 +25,7 @@ jobs:
       - name: Install deps
         run: uv sync
 
-
-
-      - name: Source environment
-        run: source .env
       - name: Run tests
-        run:  uv run pytest
+        run: source .env && uv run pytest
 
 
