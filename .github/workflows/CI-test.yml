@@ -17,11 +17,17 @@ jobs:
         with:
           enable-cache: true
 
+      - name: Start db
+        run: docker-compose up -d db
+
       - name: Install deps
         run: uv sync
 
       - name: cp .env
         run: cp .env.example .env
+
+      - name: Source environment
+        run: source .env
       - name: Run tests
         run:  uv run pytest
 
