@@ -22,6 +22,7 @@ dependencies = [
 dev = [
     "aiosqlite>=0.21.0",
     "black>=25.1.0",
+    "faker>=37.6.0",
     "mypy>=1.17.1",
     "pytest>=8.4.1",
     "pytest-asyncio>=1.1.0",
@@ -56,7 +57,7 @@ disallow_any_generics = true
 warn_redundant_casts = true
 no_implicit_reexport = true
 plugins = ['pydantic.mypy']
-exclude = ['alembic/versions/']
+exclude = ['alembic/versions/', 'tests/']
 
 
 
