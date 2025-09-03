@@ -7,3 +7,4 @@
 - Some scripts for linting
 - Configure alembic
 - Base settings api configuration
+- Authentication
