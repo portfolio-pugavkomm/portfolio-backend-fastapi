@@ -32,7 +32,7 @@ services:
     ports:
       - "${DB_PORT}:${DB_PORT}"
     volumes:
-      - ${DB_MOUNT:-./db/postgres_data}:/data/postgres
+      - ${DB_MOUNT:-./db/postgres_data}:${DB_MOUNT_DEST:-/data/postgres}
     networks:
       - default
     healthcheck:
