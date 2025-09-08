@@ -1,7 +1,6 @@
-from typing import TypeVar, Sequence, ClassVar
+from typing import ClassVar, Sequence, TypeVar
 
 from pydantic import BaseModel, model_validator
-
 
 T = TypeVar("T")
 

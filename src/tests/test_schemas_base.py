@@ -1,6 +1,7 @@
-from src.schemas_base import AtLeastOneFieldRequired
 import pytest
 from pydantic import ValidationError
+
+from src.schemas_base import AtLeastOneFieldRequired
 
 
 def test_should_raise_if_not_defined_required_fields() -> None:
