@@ -1,0 +1,16 @@
+@auth_server = http://localhost:8000/v1
+@token_endpoint = /auth/login_with_pass
+
+### Auth with password
+POST {{auth_server}}{{token_endpoint}}
+Content-Type: application/json
+
+{
+ "password": "admin",
+  "username": "admin"
+}
+
+> {%
+    client.global.set('access_token', response.body.access);
+    client.global.set('refresh_token', response.body.refresh);
+%}

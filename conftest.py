@@ -16,6 +16,7 @@ from src.database import Base
 
 pytest_plugins = [
     "tests.fixtures.user_data",
+    "tests.fixtures.resources_data",
 ]
 
 settings = get_app_settings()

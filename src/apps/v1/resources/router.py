@@ -4,6 +4,7 @@ from src.apps.v1.auth.dependencies import admin_required
 from src.apps.v1.resources.schemas import AddResourceSkillSchema, ResourceSkillPartialSchema, ResourceSkillSchema
 from src.apps.v1.resources.services import (
     AddSkillService,
+    DeleteSkillService,
     GetAllResourcesService,
     PartialUpdateSkillService,
     UpdateSkillService,
@@ -77,3 +78,11 @@ async def partial_update_skill(
     - admin
     """
     return await PartialUpdateSkillService(skill_id, data, ses).execute()
+
+
+@router.delete(
+    "/skills/{skill_id}",
+    dependencies=(Depends(admin_required),),
+)
+async def delete_skill(skill_id: int, ses: DBSessionDep) -> None:
+    return await DeleteSkillService(skill_id, ses).execute()

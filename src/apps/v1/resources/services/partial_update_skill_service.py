@@ -1,6 +1,6 @@
-from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.apps.v1.resources.exceptions import SkillHttpExceptionTypeEnum, skill_exception_fabric
 from src.apps.v1.resources.repositories import SkillRepository
 from src.apps.v1.resources.schemas import ResourceSkillPartialSchema, ResourceSkillSchema
 from src.utils import update_model_attributes_from_dict
@@ -15,7 +15,8 @@ class PartialUpdateSkillService:
     async def _update_skill(self) -> ResourceSkillSchema:
         skill = await self._repo.get_by_id(self._skill_id)
         if not skill:
-            raise HTTPException(404, detail="Skill not found")
+            raise skill_exception_fabric(SkillHttpExceptionTypeEnum.SKILL_NOT_FOUND)
+
         data = self._data.model_dump(exclude_none=True)
         update_model_attributes_from_dict(skill, data)
         await self._repo.save(skill)

@@ -1,0 +1,23 @@
+@server = http://localhost:8000/v1
+@endpoint = /auth/register
+
+### Register new user without email
+
+POST {{server}}{{endpoint}}
+Content-Type: application/json
+
+{
+    "username": "userName",
+    "password": "password"
+}
+
+### Register new user with email
+
+POST {{server}}{{endpoint}}
+Content-Type: application/json
+
+{
+    "username": "userNameWithEmail",
+    "password": "password",
+    "email": "test@example.com"
+}

@@ -1,0 +1,23 @@
+@server = http://localhost:8000/v1
+@endpoint = /resources/skills
+
+### Create skill without authorization
+POST {{server}}{{endpoint}}
+Content-Type: application/json
+
+{
+    "name": "Python",
+    "weight": 100
+}
+
+### Create skill with authorization
+
+POST {{server}}{{endpoint}}
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+    "name": "Python",
+    "weight": 100
+}
+
