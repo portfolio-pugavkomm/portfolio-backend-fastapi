@@ -7,6 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent
 
 INSTALLED_APPS = [
     "src.apps.v1.auth",
+    "src.apps.v1.resources",
 ]
 
 

@@ -15,6 +15,7 @@ engine = create_async_engine(settings.SQLALCHEMY_DATABASE_URL)
 session = async_sessionmaker(engine, expire_on_commit=settings.SQLALCHEMY_EXPIRE_ON_COMMIT)
 
 str_256 = Annotated[str, 256]
+str_url = Annotated[str, 2048]
 pk_int = Annotated[int, mapped_column(primary_key=True)]
 pk_uuid = Annotated[UUID, mapped_column(primary_key=True, default=uuid.uuid4)]
 
@@ -24,6 +25,7 @@ class Base(DeclarativeBase):
         int: BIGINT,
         datetime.datetime: TIMESTAMP(timezone=True),
         str_256: String(256),
+        str_url: String(2048),
     }
 
 

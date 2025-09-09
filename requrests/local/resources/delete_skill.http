@@ -1,0 +1,9 @@
+@server = http://localhost:8000/v1
+@endpoint = /resources/skills
+@skill_id = /1
+
+
+### Delete skill
+
+DELETE {{server}}{{endpoint}}{{skill_id}}
+Authorization: Bearer {{access_token}}
