@@ -46,5 +46,6 @@ class RoleModel(Base):
 
 class UserRoleAssociationModel(Base):
     __tablename__ = "user_role_association"
-    user_uuid: Mapped[UUID] = mapped_column(ForeignKey("users.user_uuid"), primary_key=True)
+    user_uuid: Mapped[UUID] = mapped_column(ForeignKey("users.user_uuid"), primary_key=True)  # TODO: rewrite with
+    # pk_uuid
     role_uuid: Mapped[UUID] = mapped_column(ForeignKey("roles.role_uuid"), primary_key=True)
